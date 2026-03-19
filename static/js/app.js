@@ -862,6 +862,19 @@ DELETE /api/v1/channels/{id} # 删除渠道
 }
 
 // Toast 通知
+function copyCode(elementId, btn) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '已复制';
+        btn.classList.add('text-green-600');
+        setTimeout(() => {
+            btn.textContent = orig;
+            btn.classList.remove('text-green-600');
+        }, 1500);
+    });
+}
+
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const icon = document.getElementById('toast-icon');

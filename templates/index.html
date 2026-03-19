@@ -250,7 +250,8 @@
                         <div class="space-y-4">
                             <div>
                                 <p class="text-xs text-gray-400 mb-1">OpenAI 兼容格式</p>
-                                <pre class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 overflow-x-auto whitespace-pre">curl -X POST http://localhost:59012/api/v1/audio/speech \
+                                <div class="relative group">
+                                    <pre id="curl-speech" class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 overflow-x-auto whitespace-pre">curl -X POST http://localhost:59012/api/v1/audio/speech \
   -H "Authorization: Bearer admin" \
   -H "Content-Type: application/json" \
   -d '{
@@ -261,13 +262,18 @@
     "speed": 1.0
   }' \
   --output speech.mp3</pre>
+                                    <button onclick="copyCode('curl-speech', this)" class="absolute top-1.5 right-1.5 px-1.5 py-0.5 text-xs text-gray-400 hover:text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded transition">复制</button>
+                                </div>
                             </div>
                             <div>
                                 <p class="text-xs text-gray-400 mb-1">阅读 App 接口</p>
-                                <pre class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 overflow-x-auto whitespace-pre">curl -X POST http://localhost:59012/api/v1/tts/reading \
+                                <div class="relative group">
+                                    <pre id="curl-reading" class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 overflow-x-auto whitespace-pre">curl -X POST http://localhost:59012/api/v1/tts/reading \
   -H "Authorization: Bearer admin" \
   -d 'speakText=你好世界&speakSpeed=25&voice=zh-CN-XiaoxiaoNeural' \
   --output reading.mp3</pre>
+                                    <button onclick="copyCode('curl-reading', this)" class="absolute top-1.5 right-1.5 px-1.5 py-0.5 text-xs text-gray-400 hover:text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded transition">复制</button>
+                                </div>
                             </div>
                         </div>
                         <a href="/docs" target="_blank" class="mt-3 text-xs text-gray-400 hover:text-gray-600 inline-block">查看接口文档 →</a>
