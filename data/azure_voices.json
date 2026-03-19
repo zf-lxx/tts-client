@@ -1,0 +1,320 @@
+[
+  {
+    "id": 2,
+    "name": "zh-CN-XiaoxiaoNeural",
+    "label": "晓晓",
+    "emotions": [
+      {"id": 1, "name": "assistant", "label": "助理"},
+      {"id": 2, "name": "chat", "label": "聊天"},
+      {"id": 3, "name": "customerservice", "label": "客服"},
+      {"id": 4, "name": "newscast", "label": "新闻播报"},
+      {"id": 5, "name": "affectionate", "label": "深情"},
+      {"id": 6, "name": "angry", "label": "愤怒"},
+      {"id": 7, "name": "calm", "label": "平静"},
+      {"id": 8, "name": "cheerful", "label": "愉快"},
+      {"id": 9, "name": "disgruntled", "label": "不满"},
+      {"id": 10, "name": "fearful", "label": "害怕"},
+      {"id": 11, "name": "gentle", "label": "温柔"},
+      {"id": 12, "name": "lyrical", "label": "抒情"},
+      {"id": 13, "name": "sad", "label": "悲伤"},
+      {"id": 14, "name": "serious", "label": "严肃"},
+      {"id": 15, "name": "poetry-reading", "label": "诗歌朗读"},
+      {"id": 16, "name": "friendly", "label": "友好"},
+      {"id": 17, "name": "chat-casual", "label": "随意聊天"},
+      {"id": 18, "name": "whispering", "label": "耳语"},
+      {"id": 19, "name": "sorry", "label": "抱歉"},
+      {"id": 20, "name": "excited", "label": "兴奋"}
+    ]
+  },
+  {
+    "id": 3,
+    "name": "zh-CN-YunxiNeural",
+    "label": "云希",
+    "emotions": [
+      {"id": 21, "name": "narration-relaxed", "label": "轻松叙述"},
+      {"id": 22, "name": "embarrassed", "label": "尴尬"},
+      {"id": 23, "name": "fearful", "label": "害怕"},
+      {"id": 24, "name": "cheerful", "label": "愉快"},
+      {"id": 25, "name": "disgruntled", "label": "不满"},
+      {"id": 26, "name": "serious", "label": "严肃"},
+      {"id": 27, "name": "angry", "label": "愤怒"},
+      {"id": 28, "name": "sad", "label": "悲伤"},
+      {"id": 29, "name": "depressed", "label": "沮丧"},
+      {"id": 30, "name": "chat", "label": "聊天"},
+      {"id": 31, "name": "assistant", "label": "助理"},
+      {"id": 32, "name": "newscast", "label": "新闻播报"}
+    ]
+  },
+  {
+    "id": 4,
+    "name": "zh-CN-YunjianNeural",
+    "label": "云健",
+    "emotions": [
+      {"id": 33, "name": "narration-relaxed", "label": "轻松叙述"},
+      {"id": 34, "name": "sports-commentary", "label": "体育解说"},
+      {"id": 35, "name": "sports-commentary-excited", "label": "激情体育解说"},
+      {"id": 36, "name": "angry", "label": "愤怒"},
+      {"id": 37, "name": "disgruntled", "label": "不满"},
+      {"id": 38, "name": "cheerful", "label": "愉快"},
+      {"id": 39, "name": "sad", "label": "悲伤"},
+      {"id": 40, "name": "serious", "label": "严肃"},
+      {"id": 41, "name": "depressed", "label": "沮丧"},
+      {"id": 42, "name": "documentary-narration", "label": "纪录片解说"}
+    ]
+  },
+  {
+    "id": 5,
+    "name": "zh-CN-XiaoyiNeural",
+    "label": "晓伊",
+    "emotions": [
+      {"id": 43, "name": "angry", "label": "愤怒"},
+      {"id": 44, "name": "disgruntled", "label": "不满"},
+      {"id": 45, "name": "affectionate", "label": "深情"},
+      {"id": 46, "name": "cheerful", "label": "愉快"},
+      {"id": 47, "name": "fearful", "label": "害怕"},
+      {"id": 48, "name": "sad", "label": "悲伤"},
+      {"id": 49, "name": "embarrassed", "label": "尴尬"},
+      {"id": 50, "name": "serious", "label": "严肃"},
+      {"id": 51, "name": "gentle", "label": "温柔"}
+    ]
+  },
+  {
+    "id": 6,
+    "name": "zh-CN-YunyangNeural",
+    "label": "云扬",
+    "emotions": [
+      {"id": 52, "name": "customerservice", "label": "客服"},
+      {"id": 53, "name": "narration-professional", "label": "专业解说"},
+      {"id": 54, "name": "newscast-casual", "label": "休闲新闻"}
+    ]
+  },
+  {
+    "id": 7,
+    "name": "zh-CN-XiaochenNeural",
+    "label": "晓辰",
+    "emotions": [
+      {"id": 55, "name": "livecommercial", "label": "直播带货"}
+    ]
+  },
+  {
+    "id": 8,
+    "name": "zh-CN-XiaochenMultilingualNeural",
+    "label": "晓辰 多语言",
+    "emotions": []
+  },
+  {
+    "id": 9,
+    "name": "zh-CN-XiaohanNeural",
+    "label": "晓涵",
+    "emotions": [
+      {"id": 56, "name": "calm", "label": "平静"},
+      {"id": 57, "name": "fearful", "label": "害怕"},
+      {"id": 58, "name": "cheerful", "label": "愉快"},
+      {"id": 59, "name": "disgruntled", "label": "不满"},
+      {"id": 60, "name": "serious", "label": "严肃"},
+      {"id": 61, "name": "angry", "label": "愤怒"},
+      {"id": 62, "name": "sad", "label": "悲伤"},
+      {"id": 63, "name": "gentle", "label": "温柔"},
+      {"id": 64, "name": "affectionate", "label": "深情"},
+      {"id": 65, "name": "embarrassed", "label": "尴尬"}
+    ]
+  },
+  {
+    "id": 10,
+    "name": "zh-CN-XiaomengNeural",
+    "label": "晓梦",
+    "emotions": [
+      {"id": 66, "name": "chat", "label": "聊天"}
+    ]
+  },
+  {
+    "id": 11,
+    "name": "zh-CN-XiaomoNeural",
+    "label": "晓墨",
+    "emotions": [
+      {"id": 67, "name": "embarrassed", "label": "尴尬"},
+      {"id": 68, "name": "calm", "label": "平静"},
+      {"id": 69, "name": "fearful", "label": "害怕"},
+      {"id": 70, "name": "cheerful", "label": "愉快"},
+      {"id": 71, "name": "disgruntled", "label": "不满"},
+      {"id": 72, "name": "serious", "label": "严肃"},
+      {"id": 73, "name": "angry", "label": "愤怒"},
+      {"id": 74, "name": "sad", "label": "悲伤"},
+      {"id": 75, "name": "depressed", "label": "沮丧"},
+      {"id": 76, "name": "affectionate", "label": "深情"},
+      {"id": 77, "name": "gentle", "label": "温柔"},
+      {"id": 78, "name": "envious", "label": "羡慕"}
+    ]
+  },
+  {
+    "id": 12,
+    "name": "zh-CN-XiaoqiuNeural",
+    "label": "晓秋",
+    "emotions": []
+  },
+  {
+    "id": 13,
+    "name": "zh-CN-XiaorouNeural",
+    "label": "晓柔",
+    "emotions": []
+  },
+  {
+    "id": 14,
+    "name": "zh-CN-XiaoruiNeural",
+    "label": "晓睿",
+    "emotions": [
+      {"id": 79, "name": "calm", "label": "平静"},
+      {"id": 80, "name": "fearful", "label": "害怕"},
+      {"id": 81, "name": "angry", "label": "愤怒"},
+      {"id": 82, "name": "sad", "label": "悲伤"}
+    ]
+  },
+  {
+    "id": 15,
+    "name": "zh-CN-XiaoshuangNeural",
+    "label": "晓双",
+    "emotions": [
+      {"id": 83, "name": "chat", "label": "聊天"}
+    ]
+  },
+  {
+    "id": 16,
+    "name": "zh-CN-XiaoxiaoDialectsNeural",
+    "label": "晓晓 方言",
+    "emotions": []
+  },
+  {
+    "id": 17,
+    "name": "zh-CN-XiaoxiaoMultilingualNeural",
+    "label": "晓晓 多语言",
+    "emotions": [
+      {"id": 84, "name": "affectionate", "label": "深情"},
+      {"id": 85, "name": "cheerful", "label": "愉快"},
+      {"id": 86, "name": "empathetic", "label": "富有同理心"},
+      {"id": 87, "name": "excited", "label": "兴奋"},
+      {"id": 88, "name": "poetry-reading", "label": "诗歌朗读"},
+      {"id": 89, "name": "sorry", "label": "抱歉"},
+      {"id": 90, "name": "story", "label": "讲故事"}
+    ]
+  },
+  {
+    "id": 18,
+    "name": "zh-CN-XiaoyanNeural",
+    "label": "晓颜",
+    "emotions": []
+  },
+  {
+    "id": 19,
+    "name": "zh-CN-XiaoyouNeural",
+    "label": "晓悠",
+    "emotions": []
+  },
+  {
+    "id": 20,
+    "name": "zh-CN-XiaoyuMultilingualNeural",
+    "label": "晓宇 多语言",
+    "emotions": []
+  },
+  {
+    "id": 21,
+    "name": "zh-CN-XiaozhenNeural",
+    "label": "晓甄",
+    "emotions": [
+      {"id": 91, "name": "angry", "label": "愤怒"},
+      {"id": 92, "name": "disgruntled", "label": "不满"},
+      {"id": 93, "name": "cheerful", "label": "愉快"},
+      {"id": 94, "name": "fearful", "label": "害怕"},
+      {"id": 95, "name": "sad", "label": "悲伤"},
+      {"id": 96, "name": "serious", "label": "严肃"}
+    ]
+  },
+  {
+    "id": 22,
+    "name": "zh-CN-YunfengNeural",
+    "label": "云枫",
+    "emotions": [
+      {"id": 97, "name": "angry", "label": "愤怒"},
+      {"id": 98, "name": "disgruntled", "label": "不满"},
+      {"id": 99, "name": "cheerful", "label": "愉快"},
+      {"id": 100, "name": "fearful", "label": "害怕"},
+      {"id": 101, "name": "sad", "label": "悲伤"},
+      {"id": 102, "name": "serious", "label": "严肃"},
+      {"id": 103, "name": "depressed", "label": "沮丧"}
+    ]
+  },
+  {
+    "id": 23,
+    "name": "zh-CN-YunhaoNeural",
+    "label": "云皓",
+    "emotions": [
+      {"id": 104, "name": "advertisement-upbeat", "label": "活力广告"}
+    ]
+  },
+  {
+    "id": 24,
+    "name": "zh-CN-YunjieNeural",
+    "label": "云杰",
+    "emotions": []
+  },
+  {
+    "id": 25,
+    "name": "zh-CN-YunxiaNeural",
+    "label": "云夏",
+    "emotions": [
+      {"id": 105, "name": "calm", "label": "平静"},
+      {"id": 106, "name": "fearful", "label": "害怕"},
+      {"id": 107, "name": "cheerful", "label": "愉快"},
+      {"id": 108, "name": "angry", "label": "愤怒"},
+      {"id": 109, "name": "sad", "label": "悲伤"}
+    ]
+  },
+  {
+    "id": 26,
+    "name": "zh-CN-YunyeNeural",
+    "label": "云野",
+    "emotions": [
+      {"id": 110, "name": "embarrassed", "label": "尴尬"},
+      {"id": 111, "name": "calm", "label": "平静"},
+      {"id": 112, "name": "fearful", "label": "害怕"},
+      {"id": 113, "name": "cheerful", "label": "愉快"},
+      {"id": 114, "name": "disgruntled", "label": "不满"},
+      {"id": 115, "name": "serious", "label": "严肃"},
+      {"id": 116, "name": "angry", "label": "愤怒"},
+      {"id": 117, "name": "sad", "label": "悲伤"}
+    ]
+  },
+  {
+    "id": 27,
+    "name": "zh-CN-YunyiMultilingualNeural",
+    "label": "云逸 多语言",
+    "emotions": []
+  },
+  {
+    "id": 28,
+    "name": "zh-CN-YunzeNeural",
+    "label": "云泽",
+    "emotions": [
+      {"id": 118, "name": "calm", "label": "平静"},
+      {"id": 119, "name": "fearful", "label": "害怕"},
+      {"id": 120, "name": "cheerful", "label": "愉快"},
+      {"id": 121, "name": "disgruntled", "label": "不满"},
+      {"id": 122, "name": "serious", "label": "严肃"},
+      {"id": 123, "name": "angry", "label": "愤怒"},
+      {"id": 124, "name": "sad", "label": "悲伤"},
+      {"id": 125, "name": "depressed", "label": "沮丧"},
+      {"id": 126, "name": "documentary-narration", "label": "纪录片解说"}
+    ]
+  },
+  {
+    "id": 29,
+    "name": "zh-CN-YunfanMultilingualNeural",
+    "label": "Yunfan Multilingual",
+    "emotions": []
+  },
+  {
+    "id": 30,
+    "name": "zh-CN-YunxiaoMultilingualNeural",
+    "label": "Yunxiao Multilingual",
+    "emotions": []
+  }
+]

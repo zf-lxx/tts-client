@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  tts-open:
+    build: .
+    container_name: tts-open
+    restart: unless-stopped
+    ports:
+      - "59012:8000"
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    environment:
+      - LOG_LEVEL=INFO

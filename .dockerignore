@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.git/
+.gitignore
+output/
+data/channels.json
+data/history.json
+CLAUDE.md
+README.md

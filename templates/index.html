@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS OPEN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes sound-wave {
+            0%, 100% { height: 12px; }
+            50% { height: 28px; }
+        }
+        .sound-bar { animation: sound-wave 1s ease-in-out infinite; }
+        .sound-bar:nth-child(2) { animation-delay: 0.15s; }
+        .sound-bar:nth-child(3) { animation-delay: 0.3s; }
+        .sound-bar:nth-child(4) { animation-delay: 0.45s; }
+        .sound-bar:nth-child(5) { animation-delay: 0.6s; }
+        select, input[type="text"], input[type="url"], input[type="password"], input[type="number"], textarea {
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-800">
+
+    <!-- 登录页 -->
+    <div id="login-modal" class="fixed inset-0 bg-gray-100 z-[100] flex items-center justify-center hidden">
+        <div class="bg-white border border-gray-200 rounded-lg shadow w-full max-w-xs mx-4 p-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-1">TTS OPEN</h2>
+            <p class="text-sm text-gray-400 mb-6">管理后台</p>
+            <div class="space-y-3">
+                <input id="login-password" type="password" placeholder="请输入密码"
+                    class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400" />
+                <p id="login-error" class="text-red-500 text-xs min-h-[1rem]"></p>
+                <button onclick="submitLogin()"
+                    class="w-full bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium py-2.5 rounded-md transition">
+                    登录
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <nav id="app-nav" class="bg-white border-b border-gray-200 sticky top-0 z-50 hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between h-14">
+                <div class="flex items-center gap-8">
+                    <span class="text-sm font-semibold text-gray-800 tracking-wide">TTS OPEN</span>
+                    <div class="flex gap-1">
+                        <button onclick="switchTab('synthesize')" id="tab-synthesize"
+                            class="tab-btn px-3 py-1.5 text-sm rounded-md bg-gray-100 text-gray-800 font-medium">
+                            语音合成
+                        </button>
+                        <button onclick="switchTab('channels')" id="tab-channels"
+                            class="tab-btn px-3 py-1.5 text-sm rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-50">
+                            渠道管理
+                        </button>
+                        <button onclick="switchTab('history')" id="tab-history"
+                            class="tab-btn px-3 py-1.5 text-sm rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-50">
+                            历史记录
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-xs text-gray-400 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>运行中
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main id="app-main" class="max-w-6xl mx-auto px-4 sm:px-6 py-6 hidden">
+
+        <!-- 语音合成页面 -->
+        <div id="page-synthesize" class="page-content">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+                <!-- 左侧：合成设置 -->
+                <div class="lg:col-span-2 space-y-4">
+                    <!-- 文本输入 -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm font-medium text-gray-700">输入文本</span>
+                            <div class="flex gap-3">
+                                <button onclick="clearText()" class="text-xs text-gray-400 hover:text-gray-600">清空</button>
+                                <button onclick="insertSampleText()" class="text-xs text-gray-400 hover:text-gray-600">示例</button>
+                            </div>
+                        </div>
+                        <textarea id="input-text"
+                            class="w-full h-36 px-3 py-2.5 border border-gray-200 rounded-md resize-none text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400"
+                            placeholder="请输入要合成语音的文本..."
+                            maxlength="5000"></textarea>
+                        <div class="mt-1.5 text-right text-xs text-gray-400">
+                            <span id="char-count">0</span> / 5000
+                        </div>
+                    </div>
+
+                    <!-- 参数设置 -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-5">
+                        <span class="text-sm font-medium text-gray-700 block mb-4">参数设置</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- 渠道 -->
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1.5">渠道</label>
+                                <select id="channel-select" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                                    <option value="">自动选择</option>
+                                </select>
+                            </div>
+                            <!-- 语音 -->
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1.5">语音</label>
+                                <select id="voice-select" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                                    <option value="">请先选择渠道...</option>
+                                </select>
+                            </div>
+                            <!-- Azure 风格 -->
+                            <div id="azure-style-wrapper" class="hidden">
+                                <label class="block text-xs text-gray-500 mb-1.5">Azure 风格</label>
+                                <select id="azure-style-select" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                                    <option value="">自动</option>
+                                    <option value="assistant">助理</option>
+                                    <option value="chat">聊天</option>
+                                    <option value="customerservice">客服</option>
+                                    <option value="newscast">新闻播报</option>
+                                    <option value="affectionate">深情</option>
+                                    <option value="angry">愤怒</option>
+                                    <option value="calm">平静</option>
+                                    <option value="cheerful">愉快</option>
+                                    <option value="disgruntled">不满</option>
+                                    <option value="fearful">害怕</option>
+                                    <option value="gentle">温柔</option>
+                                    <option value="lyrical">抒情</option>
+                                    <option value="sad">悲伤</option>
+                                    <option value="serious">严肃</option>
+                                    <option value="poetry-reading">诗歌朗读</option>
+                                    <option value="friendly">友好</option>
+                                    <option value="chat-casual">随意聊天</option>
+                                    <option value="whispering">耳语</option>
+                                    <option value="sorry">抱歉</option>
+                                    <option value="excited">兴奋</option>
+                                    <option value="narration-relaxed">轻松叙述</option>
+                                    <option value="embarrassed">尴尬</option>
+                                    <option value="depressed">沮丧</option>
+                                    <option value="sports-commentary">体育解说</option>
+                                    <option value="sports-commentary-excited">激情体育解说</option>
+                                    <option value="documentary-narration">纪录片解说</option>
+                                    <option value="narration-professional">专业解说</option>
+                                    <option value="newscast-casual">休闲新闻</option>
+                                    <option value="livecommercial">直播带货</option>
+                                    <option value="empathetic">富有同理心</option>
+                                    <option value="story">讲故事</option>
+                                    <option value="advertisement-upbeat">活力广告</option>
+                                    <option value="envious">羡慕</option>
+                                </select>
+                                <p class="text-xs text-gray-400 mt-1">选择风格会自动应用到对应语音</p>
+                            </div>
+                            <!-- 格式 -->
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1.5">音频格式</label>
+                                <select id="format-select" class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                                    <option value="mp3">MP3</option>
+                                    <option value="wav">WAV</option>
+                                    <option value="ogg">OGG</option>
+                                    <option value="aac">AAC</option>
+                                </select>
+                            </div>
+                            <!-- 语速 -->
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1.5">
+                                    语速 <span id="speed-value" class="text-gray-700 font-medium">1.0x</span>
+                                </label>
+                                <input type="range" id="speed-slider" min="0.25" max="4.0" step="0.25" value="1.0"
+                                    class="w-full h-1.5 bg-gray-200 rounded appearance-none cursor-pointer"
+                                    oninput="updateSpeedDisplay(this.value)">
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>慢</span><span>正常</span><span>快</span>
+                                </div>
+                            </div>
+                            <!-- 音调 -->
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1.5">
+                                    音调 <span id="pitch-value" class="text-gray-700 font-medium">1.0</span>
+                                </label>
+                                <input type="range" id="pitch-slider" min="0.5" max="2.0" step="0.1" value="1.0"
+                                    class="w-full h-1.5 bg-gray-200 rounded appearance-none cursor-pointer"
+                                    oninput="document.getElementById('pitch-value').textContent = this.value">
+                            </div>
+                            <!-- 音量 -->
+                            <div>
+                                <label class="block text-xs text-gray-500 mb-1.5">
+                                    音量 <span id="volume-value" class="text-gray-700 font-medium">1.0</span>
+                                </label>
+                                <input type="range" id="volume-slider" min="0" max="2.0" step="0.1" value="1.0"
+                                    class="w-full h-1.5 bg-gray-200 rounded appearance-none cursor-pointer"
+                                    oninput="document.getElementById('volume-value').textContent = this.value">
+                            </div>
+                        </div>
+                        <!-- 按钮 -->
+                        <div class="flex gap-3 mt-5">
+                            <button onclick="previewAudio()" id="preview-btn"
+                                class="flex-1 border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm font-medium py-2.5 rounded-md transition">
+                                试听
+                            </button>
+                            <button onclick="generateAudio()" id="generate-btn"
+                                class="flex-1 bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium py-2.5 rounded-md transition">
+                                生成语音
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧 -->
+                <div class="space-y-4">
+                    <!-- 播放器 -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-5">
+                        <span class="text-sm font-medium text-gray-700 block mb-3">音频预览</span>
+                        <div id="audio-player-container" class="hidden">
+                            <audio id="audio-player" controls class="w-full mb-3"></audio>
+                            <button onclick="downloadAudio()"
+                                class="w-full border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm py-2 rounded-md transition">
+                                下载
+                            </button>
+                        </div>
+                        <div id="audio-placeholder" class="py-10 text-center text-gray-300">
+                            <div class="flex justify-center gap-0.5 mb-3">
+                                <div class="w-0.5 h-5 bg-gray-200 rounded"></div>
+                                <div class="w-0.5 h-8 bg-gray-200 rounded"></div>
+                                <div class="w-0.5 h-4 bg-gray-200 rounded"></div>
+                                <div class="w-0.5 h-7 bg-gray-200 rounded"></div>
+                                <div class="w-0.5 h-3 bg-gray-200 rounded"></div>
+                            </div>
+                            <p class="text-xs text-gray-400">点击试听或生成语音</p>
+                        </div>
+                        <div id="audio-loading" class="hidden py-10 text-center">
+                            <div class="flex justify-center gap-0.5 mb-3">
+                                <div class="sound-bar w-0.5 bg-gray-400 rounded"></div>
+                                <div class="sound-bar w-0.5 bg-gray-400 rounded"></div>
+                                <div class="sound-bar w-0.5 bg-gray-400 rounded"></div>
+                                <div class="sound-bar w-0.5 bg-gray-400 rounded"></div>
+                                <div class="sound-bar w-0.5 bg-gray-400 rounded"></div>
+                            </div>
+                            <p class="text-xs text-gray-400">正在生成...</p>
+                        </div>
+                    </div>
+                    <!-- API 说明 -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-5">
+                        <span class="text-sm font-medium text-gray-700 block mb-3">API 接口</span>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-xs text-gray-400 mb-1">OpenAI 兼容格式</p>
+                                <div class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600">
+                                    POST /api/v1/audio/speech
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400 mb-1">阅读 App 接口</p>
+                                <div class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600">
+                                    POST /api/v1/tts/reading
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/docs" target="_blank" class="mt-3 text-xs text-gray-400 hover:text-gray-600 inline-block">查看接口文档 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 渠道管理页面 -->
+        <div id="page-channels" class="page-content hidden">
+            <div class="space-y-4">
+                <div class="bg-white border border-gray-200 rounded-lg p-5">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h2 class="text-base font-semibold text-gray-800">渠道管理</h2>
+                            <p class="text-xs text-gray-400 mt-0.5">管理各渠道的状态与优先级</p>
+                        </div>
+                        <button onclick="openAddChannelModal()" class="bg-gray-800 hover:bg-gray-900 text-white text-sm px-4 py-2 rounded-md transition">
+                            添加渠道
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm font-medium text-gray-700">渠道列表</span>
+                        <span class="text-xs text-gray-400">点击右侧按钮测试或删除</span>
+                    </div>
+                    <div id="channels-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                        <div class="text-center py-10 text-gray-400 text-sm col-span-full">加载中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 历史记录页面 -->
+        <div id="page-history" class="page-content hidden">
+            <div class="space-y-4">
+                <div class="bg-white border border-gray-200 rounded-lg p-5">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h2 class="text-base font-semibold text-gray-800">生成历史</h2>
+                            <p class="text-xs text-gray-400 mt-0.5">最近的语音生成记录</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select id="history-format-filter" class="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-400">
+                                <option value="">全部格式</option>
+                                <option value="mp3">MP3</option>
+                                <option value="wav">WAV</option>
+                                <option value="ogg">OGG</option>
+                                <option value="aac">AAC</option>
+                            </select>
+                            <button onclick="clearHistory()" class="text-xs text-red-500 hover:text-red-700">清空历史</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm font-medium text-gray-700">历史列表</span>
+                        <span class="text-xs text-gray-400">点击播放按钮试听</span>
+                    </div>
+                    <div id="history-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                        <div class="text-center py-10 text-gray-400 text-sm col-span-full">加载中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 添加渠道模态框 -->
+    <div id="add-channel-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center">
+        <div class="bg-white border border-gray-200 rounded-lg shadow-lg w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-base font-semibold text-gray-800">添加渠道</h3>
+                <button onclick="closeAddChannelModal()" class="text-gray-400 hover:text-gray-600 text-lg">&times;</button>
+            </div>
+            <form id="add-channel-form" onsubmit="submitAddChannel(event)">
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">渠道名称</label>
+                        <input type="text" id="new-channel-name" required
+                            class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">渠道类型</label>
+                        <select id="new-channel-type" required
+                            class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                            <option value="">请选择类型</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="azure">Azure</option>
+                            <option value="google">Google</option>
+                            <option value="elevenlabs">ElevenLabs</option>
+                            <option value="custom">Custom</option>
+                            <option value="nami">纳米AI</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">API 地址 (可选)</label>
+                        <input type="url" id="new-channel-url"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400"
+                            placeholder="https://api.example.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">API 密钥 (可选)</label>
+                        <input type="password" id="new-channel-key"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400"
+                            placeholder="sk-...">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">优先级</label>
+                        <input type="number" id="new-channel-priority" value="0" min="0"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400">
+                        <p class="text-xs text-gray-400 mt-1">数字越大优先级越高</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="new-channel-default" class="w-4 h-4">
+                        <label for="new-channel-default" class="text-sm text-gray-600">设为默认渠道</label>
+                    </div>
+                </div>
+                <div class="mt-5 flex gap-3">
+                    <button type="button" onclick="closeAddChannelModal()"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-600 hover:bg-gray-50 transition">
+                        取消
+                    </button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-2 bg-gray-800 hover:bg-gray-900 text-white text-sm rounded-md transition">
+                        添加
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-white border border-gray-200 shadow rounded-lg px-4 py-3 hidden z-50">
+        <div class="flex items-center gap-2">
+            <i id="toast-icon" class="fas fa-check-circle text-green-500 text-sm"></i>
+            <span id="toast-message" class="text-sm text-gray-700"></span>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

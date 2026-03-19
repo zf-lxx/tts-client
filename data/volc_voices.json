@@ -1,0 +1,62 @@
+[
+  {
+    "id": 71,
+    "name": "zh_female_story",
+    "label": "少儿故事 中英混",
+    "emotions": []
+  },
+  {
+    "id": 72,
+    "name": "zh_female_qingxin",
+    "label": "清新女声 中英混",
+    "emotions": []
+  },
+  {
+    "id": 73,
+    "name": "zh_female_zhubo",
+    "label": "女主播 中英混",
+    "emotions": []
+  },
+  {
+    "id": 74,
+    "name": "zh_male_zhubo",
+    "label": "男主播 中英混",
+    "emotions": []
+  },
+  {
+    "id": 75,
+    "name": "zh_male_xiaoming",
+    "label": "影视男解说 中英混",
+    "emotions": []
+  },
+  {
+    "id": 76,
+    "name": "zh_female_sichuan",
+    "label": "四川女声 川英混",
+    "emotions": []
+  },
+  {
+    "id": 77,
+    "name": "zh_male_rap",
+    "label": "嘻哈男歌手 中英混",
+    "emotions": []
+  },
+  {
+    "id": 78,
+    "name": "en_female_sarah",
+    "label": "澳英女声 澳洲英语",
+    "emotions": []
+  },
+  {
+    "id": 79,
+    "name": "jp_male_satoshi",
+    "label": "活力男青年 日语",
+    "emotions": []
+  },
+  {
+    "id": 80,
+    "name": "jp_female_hana",
+    "label": "温柔女声 日语",
+    "emotions": []
+  }
+]
