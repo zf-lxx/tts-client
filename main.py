@@ -16,7 +16,7 @@ from config.logger import logger
 from routers import tts, channels
 
 # 不需要认证的路径前缀
-_PUBLIC_PATHS = {"/", "/api/health", "/docs", "/openapi.json", "/redoc"}
+_PUBLIC_PATHS = {"/", "/api/health", "/docs", "/openapi.json", "/redoc", "/kaithhealthcheck", "/kaithheathcheck"}
 
 
 @asynccontextmanager
@@ -90,6 +90,8 @@ async def root(request: Request):
 
 
 @app.get("/api/health")
+@app.get("/kaithhealthcheck")
+@app.get("/kaithheathcheck")
 async def health_check():
     """健康检查接口"""
     return {
