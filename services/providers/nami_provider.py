@@ -16,7 +16,8 @@ from .base import TTSProvider
 
 
 NAMI_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
-NAMI_VOICES_FILE = "./data/nami_voices.json"
+from config.settings import settings
+NAMI_VOICES_FILE = os.path.join(settings.DATA_DIR, "nami_voices.json")
 NAMI_ROBOTS_URL = "https://bot.n.cn/api/robot/platform"
 NAMI_TTS_URL = "https://bot.n.cn/api/tts/v1"
 

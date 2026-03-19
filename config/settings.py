@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     
     # TTS 配置
     DEFAULT_TTS_CHANNEL: str = "default"
+    DATA_DIR: str = "./data"
     AUDIO_OUTPUT_DIR: str = "./output/audio"
     
     # 支持的音频格式

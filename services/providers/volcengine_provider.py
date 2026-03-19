@@ -12,7 +12,8 @@ from .base import TTSProvider
 
 def _load_volc_voice_catalog() -> List[Dict[str, Any]]:
     """加载火山语音列表"""
-    file_path = os.path.join("./data", "volc_voices.json")
+    from config.settings import settings
+    file_path = os.path.join(settings.DATA_DIR, "volc_voices.json")
     if not os.path.exists(file_path):
         return []
     try:

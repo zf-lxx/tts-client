@@ -16,8 +16,9 @@ from models.schemas import (
     ChannelStatus
 )
 from config.logger import logger
+from config.settings import settings
 
-DATA_DIR = "./data"
+DATA_DIR = settings.DATA_DIR
 CHANNELS_FILE = os.path.join(DATA_DIR, "channels.json")
 
 

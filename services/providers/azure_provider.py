@@ -36,7 +36,8 @@ _azure_voice_list_cache: Optional[List[Dict[str, Any]]] = None
 
 def _load_azure_voice_catalog() -> List[Dict[str, Any]]:
     """加载 Azure 语音与情感映射表"""
-    file_path = os.path.join("./data", "azure_voices.json")
+    from config.settings import settings
+    file_path = os.path.join(settings.DATA_DIR, "azure_voices.json")
     if not os.path.exists(file_path):
         return []
     try:

@@ -36,7 +36,7 @@ class TTSChannelManager:
 
     def __init__(self):
         self.history: List[TTSHistoryItem] = []
-        self.history_file = os.path.join("./data", "history.json")
+        self.history_file = os.path.join(settings.DATA_DIR, "history.json")
         self._voice_cache: Dict[str, List[VoiceInfo]] = {}
         self._voice_cache_time: Dict[str, float] = {}
         os.makedirs(settings.AUDIO_OUTPUT_DIR, exist_ok=True)
