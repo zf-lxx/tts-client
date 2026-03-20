@@ -128,7 +128,9 @@ class NamiTTSProvider(TTSProvider):
                 headers=headers,
                 timeout=30.0,
             )
-            response.raise_for_status()
+            if not response.is_success:
+                logger.error(f"纳米TTS 请求失败: {response.status_code}, body={response.text[:200]}")
+                raise Exception(f"纳米TTS 上游错误 {response.status_code}: {response.text[:200]}")
             return response.content
 
     async def get_voices(self) -> List[VoiceInfo]:
