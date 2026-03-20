@@ -84,14 +84,14 @@
 
         <!-- 主内容区 -->
         <main id="app-main" class="flex-1 md:ml-48 min-w-0">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-5">
+            <div class="px-4 sm:px-6 py-5">
 
         <!-- 语音合成页面 -->
         <div id="page-synthesize" class="page-content">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 xl:grid-cols-5 gap-5">
 
                 <!-- 左侧：合成设置 -->
-                <div class="lg:col-span-2 space-y-4">
+                <div class="xl:col-span-3 space-y-4">
                     <!-- 文本输入 -->
                     <div class="bg-white border border-gray-200 rounded-lg p-5">
                         <div class="flex items-center justify-between mb-3">
@@ -225,7 +225,7 @@
                 </div>
 
                 <!-- 右侧 -->
-                <div class="space-y-4">
+                <div class="xl:col-span-2 space-y-4">
                     <!-- 播放器 -->
                     <div class="bg-white border border-gray-200 rounded-lg p-5">
                         <span class="text-sm font-medium text-gray-700 block mb-3">音频预览</span>
@@ -264,7 +264,7 @@
                             <div>
                                 <p class="text-xs text-gray-400 mb-1">OpenAI 兼容格式</p>
                                 <div class="relative group">
-                                    <pre id="curl-speech" class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 overflow-x-auto whitespace-pre">curl -X POST http://localhost:59012/api/v1/audio/speech \
+                                    <pre id="curl-speech" class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 whitespace-pre-wrap break-all">curl -X POST http://localhost:59012/api/v1/audio/speech \
   -H "Authorization: Bearer admin" \
   -H "Content-Type: application/json" \
   -d '{
@@ -281,7 +281,7 @@
                             <div>
                                 <p class="text-xs text-gray-400 mb-1">阅读 App 接口</p>
                                 <div class="relative group">
-                                    <pre id="curl-reading" class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 overflow-x-auto whitespace-pre">curl -X POST http://localhost:59012/api/v1/tts/reading \
+                                    <pre id="curl-reading" class="bg-gray-50 border border-gray-100 rounded px-3 py-2 font-mono text-xs text-gray-600 whitespace-pre-wrap break-all">curl -X POST http://localhost:59012/api/v1/tts/reading \
   -H "Authorization: Bearer admin" \
   -d 'speakText=你好世界&speakSpeed=25&voice=zh-CN-XiaoxiaoNeural' \
   --output reading.mp3</pre>
