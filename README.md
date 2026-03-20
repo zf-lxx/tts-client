@@ -1,126 +1,137 @@
 # TTS OPEN 管理平台
 
-一个功能全面的 TTS（文本转语音）管理平台，支持多种 TTS 渠道接入，兼容 OpenAI TTS API 格式。
+将多个 TTS 后端统一聚合在兼容 OpenAI 格式的 API 之后的管理平台。
 
 ## 功能特性
 
-- **多渠道支持**: OpenAI、Azure、Google、ElevenLabs、Microsoft Edge TTS、自定义 API
-- **OpenAI 兼容**: 完全兼容 `/v1/audio/speech` API 格式
-- **在线预览**: 支持实时试听和参数调整
-- **渠道管理**: 灵活的渠道优先级配置、健康检查
-- **历史记录**: 保存生成历史，支持回放下载
-- **现代化 UI**: 使用 Tailwind CSS 的精美界面
+- **多渠道支持**：内置 Edge TTS（免费）、Azure 内置、火山引擎内置、纳米AI 内置，支持接入任意 OpenAI 兼容 TTS API
+- **OpenAI 兼容**：`POST /api/v1/audio/speech` 完全兼容 OpenAI TTS API 格式
+- **音色自动匹配**：调用时只传音色名，系统自动找到对应渠道（结果缓存 5 分钟）
+- **渠道管理**：优先级配置、健康检查、CRUD 管理
+- **历史记录**：保存最近 7 条生成记录，支持回放下载
+- **认证保护**：所有 `/api/v1/*` 接口需要 API Key，前端登录态存于 `sessionStorage`
+- **简约 UI**：左侧侧边栏导航，移动端自适应
 
 ## 快速开始
 
-### 安装依赖
+### 本地开发
 
 ```bash
-pip install -r requirements.txt
+# 安装依赖（需要 Python 3.12+ 和 uv）
+uv sync
+
+# 启动开发服务器（默认端口 59012）
+uv run uvicorn main:app --reload
 ```
 
-### 运行服务
+访问 `http://localhost:59012`，默认密码 `admin`。
+
+### Docker 部署
 
 ```bash
-python main.py
+docker-compose up
 ```
 
-服务将在 `http://localhost:8000` 启动
-
-### 访问管理界面
-
-打开浏览器访问: `http://localhost:8000`
+对外暴露 59012 端口，挂载 `./data` 和 `./output` 目录持久化数据。
 
 ## API 使用
 
-### 语音合成
+所有 `/api/v1/*` 接口需要认证：
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/audio/speech \
+-H "Authorization: Bearer admin"
+# 或
+-H "X-API-Key: admin"
+```
+
+### 语音合成（OpenAI 兼容格式）
+
+```bash
+curl -X POST http://localhost:59012/api/v1/audio/speech \
+  -H "Authorization: Bearer admin" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "tts-1",
-    "input": "你好，世界！",
-    "voice": "alloy",
+    "input": "你好世界",
+    "voice": "zh-CN-XiaoxiaoNeural",
     "response_format": "mp3",
     "speed": 1.0
   }' \
   --output speech.mp3
 ```
 
-### 获取语音列表
+### 阅读 App 接口
 
 ```bash
-curl http://localhost:8000/api/v1/voices
+curl -X POST http://localhost:59012/api/v1/tts/reading \
+  -H "Authorization: Bearer admin" \
+  -d 'speakText=你好世界&speakSpeed=25&voice=zh-CN-XiaoxiaoNeural' \
+  --output reading.mp3
 ```
 
-### 渠道管理
+### 获取音色列表
 
 ```bash
-# 获取渠道列表
-curl http://localhost:8000/api/v1/channels
+curl -H "Authorization: Bearer admin" \
+  http://localhost:59012/api/v1/voices?channel_id=<渠道ID>
+```
 
-# 创建渠道
-curl -X POST http://localhost:8000/api/v1/channels \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "My OpenAI",
-    "type": "openai",
-    "api_key": "sk-xxx",
-    "priority": 1
-  }'
+## 支持的 TTS 渠道
+
+| 渠道类型 | 说明 | 是否需要 Key |
+|---|---|---|
+| `openai` | OpenAI 官方及任意兼容接口 | 是 |
+| `azure` | 微软翻译内置端点 | 否 |
+| `edge` | Microsoft Edge TTS | 否 |
+| `nami` | 纳米AI（bot.n.cn） | 否 |
+| `custom` (volcengine) | 火山翻译内置端点 | 否 |
+
+首次启动自动初始化 4 个内置渠道（Edge TTS、Azure、火山引擎、纳米AI）。
+
+## 环境变量
+
+```env
+# 认证
+ADMIN_PASSWORD=admin
+
+# 服务
+HOST=0.0.0.0
+PORT=59012
+DEBUG=false          # 生产环境设为 false，关闭 /docs 接口文档
+
+# 数据目录（默认 ./data，只读文件系统时需修改）
+DATA_DIR=/app/data
+AUDIO_OUTPUT_DIR=/app/output/audio
+
+# 日志
+LOG_LEVEL=INFO
 ```
 
 ## 项目结构
 
 ```
-.
-├── main.py                 # 主程序入口
-├── config/                 # 配置模块
-│   ├── __init__.py
-│   └── settings.py
-├── models/                 # 数据模型
-│   ├── __init__.py
-│   └── schemas.py
-├── routers/                # API 路由
-│   ├── __init__.py
-│   ├── tts.py             # TTS 相关路由
-│   └── channels.py        # 渠道管理路由
-├── services/               # 业务逻辑层
-│   ├── __init__.py
-│   ├── tts_service.py     # TTS 服务
-│   └── channel_service.py # 渠道服务
-├── static/                 # 静态文件
-│   └── js/
-│       └── app.js         # 前端 JavaScript
-├── templates/              # HTML 模板
-│   └── index.html         # 主页面
-├── requirements.txt        # 依赖列表
-└── README.md              # 项目说明
+├── main.py                    # 应用入口，认证中间件
+├── config/
+│   ├── settings.py            # 环境变量配置
+│   └── logger.py              # 日志配置
+├── routers/
+│   ├── tts.py                 # TTS 相关接口
+│   └── channels.py            # 渠道管理接口
+├── services/
+│   ├── tts_service.py         # TTSChannelManager，合成调度
+│   ├── channel_service.py     # 渠道配置管理
+│   └── providers/             # 各 TTS 提供商实现
+│       ├── base.py
+│       ├── openai_provider.py
+│       ├── azure_provider.py
+│       ├── edge_provider.py
+│       ├── nami_provider.py
+│       └── volcengine_provider.py
+├── models/schemas.py          # Pydantic 数据模型
+├── templates/index.html       # 前端页面
+├── static/js/app.js           # 前端逻辑
+└── data/                      # 运行时数据（不在 Git 中）
+    ├── channels.json
+    ├── azure_voices.json
+    └── volc_voices.json
 ```
-
-## 支持的 TTS 渠道
-
-| 渠道 | 类型 | 说明 |
-|------|------|------|
-| OpenAI | openai | OpenAI TTS API |
-| Azure | azure | Azure Speech Services |
-| Google | google | Google Cloud Text-to-Speech |
-| ElevenLabs | elevenlabs | ElevenLabs API |
-| Edge TTS | edge | Microsoft Edge TTS（免费） |
-| Custom | custom | 自定义 API 接口 |
-
-## 配置说明
-
-可以通过环境变量或 `.env` 文件配置：
-
-```env
-HOST=0.0.0.0
-PORT=8000
-DEBUG=true
-AUDIO_OUTPUT_DIR=./output/audio
-```
-
-## 许可证
-
-MIT License

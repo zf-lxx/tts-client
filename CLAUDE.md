@@ -71,9 +71,9 @@ HTTP 客户端
 - **`services/providers/`** — 各 TTS 提供商实现；`base.py` 定义 `TTSProvider` 基类，其余每个文件对应一个提供商
 - **`services/channel_service.py`** — `ChannelService` 全局单例（`channel_service`）；渠道配置持久化至 `./data/channels.json`；首次启动时自动初始化 Edge TTS、Azure、火山引擎、纳米AI 四个默认渠道
 - **`models/schemas.py`** — 所有 Pydantic 数据模型
-- **`config/settings.py`** — 基于 `pydantic-settings` 的配置；从 `.env` 文件读取；默认端口 59012
-- **`static/js/app.js`** — 前端逻辑；`apiFetch()` 封装所有 API 请求并自动带认证头；`voicesLoaded` 标志位防止切换 tab 重复拉取音色列表
-- **`templates/index.html`** — 前端页面；未登录时主体内容隐藏，登录成功后调用 `initApp()` 显示
+- **`config/settings.py`** — 基于 `pydantic-settings` 的配置；从 `.env` 文件读取；默认端口 59012；关键环境变量：`ADMIN_PASSWORD`（认证密码）、`DATA_DIR`（数据目录，默认 `./data`）、`DEBUG`（生产环境设为 `False` 关闭 API 文档）
+- **`static/js/app.js`** — 前端逻辑；`apiFetch()` 封装所有 API 请求并自动带认证头；`voicesLoaded` 标志位防止切换 tab 重复拉取音色列表；`toggleSidebar()` 控制移动端侧边栏
+- **`templates/index.html`** — 前端页面；未登录时主体内容隐藏，登录成功后调用 `initApp()` 显示；左侧固定侧边栏导航，移动端折叠为 hamburger 菜单
 
 ### TTS 提供商（均在 `services/providers/` 中）
 
