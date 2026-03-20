@@ -40,38 +40,51 @@
         </div>
     </div>
 
-    <!-- 顶部导航 -->
-    <nav id="app-nav" class="bg-white border-b border-gray-200 sticky top-0 z-50 hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex justify-between h-14">
-                <div class="flex items-center gap-8">
-                    <span class="text-sm font-semibold text-gray-800 tracking-wide">TTS OPEN</span>
-                    <div class="flex gap-1">
-                        <button onclick="switchTab('synthesize')" id="tab-synthesize"
-                            class="tab-btn px-3 py-1.5 text-sm rounded-md bg-gray-100 text-gray-800 font-medium">
-                            语音合成
-                        </button>
-                        <button onclick="switchTab('channels')" id="tab-channels"
-                            class="tab-btn px-3 py-1.5 text-sm rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-50">
-                            渠道管理
-                        </button>
-                        <button onclick="switchTab('history')" id="tab-history"
-                            class="tab-btn px-3 py-1.5 text-sm rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-50">
-                            历史记录
-                        </button>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <span class="text-xs text-gray-400 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>运行中
-                    </span>
-                </div>
-            </div>
+    <!-- 顶部栏（移动端） -->
+    <header id="app-nav" class="bg-white border-b border-gray-200 sticky top-0 z-50 hidden">
+        <div class="flex items-center justify-between h-12 px-4">
+            <span class="text-sm font-semibold text-gray-800">TTS OPEN</span>
+            <button onclick="toggleSidebar()" class="p-1.5 text-gray-500 hover:text-gray-800 hover:bg-gray-50 rounded transition">
+                <i class="fas fa-bars text-sm"></i>
+            </button>
         </div>
-    </nav>
+    </header>
 
-    <!-- 主内容区 -->
-    <main id="app-main" class="max-w-6xl mx-auto px-4 sm:px-6 py-6 hidden">
+    <!-- 整体布局 -->
+    <div id="app-layout" class="hidden flex min-h-screen">
+
+        <!-- 侧边栏 -->
+        <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-40 w-48 bg-white border-r border-gray-200 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-200">
+            <div class="h-12 flex items-center px-4 border-b border-gray-100">
+                <span class="text-sm font-semibold text-gray-800">TTS OPEN</span>
+            </div>
+            <nav class="flex-1 px-2 py-3 space-y-0.5">
+                <button onclick="switchTab('synthesize')" id="tab-synthesize"
+                    class="tab-btn w-full text-left px-3 py-2 text-sm rounded-md bg-gray-100 text-gray-800 font-medium flex items-center gap-2">
+                    <i class="fas fa-wave-square text-xs w-4"></i>语音合成
+                </button>
+                <button onclick="switchTab('channels')" id="tab-channels"
+                    class="tab-btn w-full text-left px-3 py-2 text-sm rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-50 flex items-center gap-2">
+                    <i class="fas fa-server text-xs w-4"></i>渠道管理
+                </button>
+                <button onclick="switchTab('history')" id="tab-history"
+                    class="tab-btn w-full text-left px-3 py-2 text-sm rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-50 flex items-center gap-2">
+                    <i class="fas fa-history text-xs w-4"></i>历史记录
+                </button>
+            </nav>
+            <div class="px-4 py-3 border-t border-gray-100">
+                <span class="text-xs text-gray-400 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>运行中
+                </span>
+            </div>
+        </aside>
+
+        <!-- 侧边栏遮罩（移动端） -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/30 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- 主内容区 -->
+        <main id="app-main" class="flex-1 md:ml-48 min-w-0">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-5">
 
         <!-- 语音合成页面 -->
         <div id="page-synthesize" class="page-content">
@@ -340,7 +353,10 @@
                 </div>
             </div>
         </div>
-    </main>
+
+            </div><!-- end max-w-5xl -->
+        </main>
+    </div><!-- end app-layout -->
 
     <!-- 添加渠道模态框 -->
     <div id="add-channel-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center">

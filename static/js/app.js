@@ -78,8 +78,21 @@ function initApp() {
     loadChannels();
     loadHistory();
     updateCharCount();
-    document.getElementById('app-main').classList.remove('hidden');
+    document.getElementById('app-layout').classList.remove('hidden');
     document.getElementById('app-nav').classList.remove('hidden');
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const isOpen = !sidebar.classList.contains('-translate-x-full');
+    if (isOpen) {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    } else {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -137,15 +150,22 @@ function switchTab(tabName) {
     // 显示目标页面
     document.getElementById(`page-${tabName}`).classList.remove('hidden');
     
-    // 更新标签样式
+    // 更新侧边栏标签样式
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('bg-gray-100', 'text-gray-800', 'font-medium');
         btn.classList.add('text-gray-500');
     });
-
     const activeTab = document.getElementById(`tab-${tabName}`);
     activeTab.classList.remove('text-gray-500');
     activeTab.classList.add('bg-gray-100', 'text-gray-800', 'font-medium');
+
+    // 移动端切换后关闭侧边栏
+    const sidebar = document.getElementById('app-sidebar');
+    if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+        const overlay = document.getElementById('sidebar-overlay');
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
     
     // 切换到历史记录时刷新（数据量小，无副作用）
     if (tabName === 'history') {
